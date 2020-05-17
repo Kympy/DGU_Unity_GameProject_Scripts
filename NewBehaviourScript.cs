@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
@@ -58,4 +58,4 @@ public class NewBehaviourScript : MonoBehaviour
         Quaternion newRotation = Quaternion.LookRotation(moveDirection);
         playerRigidbody.rotation = Quaternion.Slerp(playerRigidbody.rotation, newRotation, turnSpeed * Time.deltaTime);
     }
-}
+}*/

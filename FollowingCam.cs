@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿/*using System.Collections;
 using UnityEngine;
 
 public class FollowingCam : MonoBehaviour
@@ -27,4 +27,4 @@ public class FollowingCam : MonoBehaviour
         cameraSelf.LookAt(targetPlayer);
     }
     
-}
+}*/
