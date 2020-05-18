@@ -12,8 +12,8 @@ public class AimandShoot : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();
         Cursor.lockState = CursorLockMode.Locked; // 기본 커서 중앙고정
+        animator = GetComponent<Animator>();
     }
 
     void Update()
