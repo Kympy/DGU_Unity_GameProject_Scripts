@@ -8,12 +8,15 @@ public class AimandShoot : MonoBehaviour
     bool cursorVisible = false; // 커서 보이기/숨기기 변수
     bool weapon = false; // 조준모드 활성/비활성 변수
 
+    PlayerControl playerControl;
+
     Animator animator;
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; // 기본 커서 중앙고정
         animator = GetComponent<Animator>();
+        playerControl = GameObject.Find("Player").GetComponent<PlayerControl>();
     }
 
     void Update()
@@ -35,11 +38,13 @@ public class AimandShoot : MonoBehaviour
 
         if (!weapon && Input.GetKeyDown(KeyCode.Q))    // 조준모드 비활성화중인데 Q를 누르면 활성화 전환
         {
-            animator.SetBool("IsAiming", true); 
+            playerControl.moveSpeed = 2.5f; // 조준 시 이동속도 느리게
+            animator.SetBool("IsAiming", true);
             weapon = true;
         }
         else if (weapon && Input.GetKeyDown(KeyCode.Q)) // 조준모드 활성화중인데 Q를 누르면 비활성화 전환
         {
+            playerControl.moveSpeed = 5f; // 조준해제 시 이동속도 복구
             animator.SetBool("IsAiming", false);
             weapon = false;
         }
