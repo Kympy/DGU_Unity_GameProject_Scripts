@@ -5,17 +5,19 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
     public float moveSpeed = 5f;    // 이동속도
-    public float turnSpeed = 2f;  // 회전속도
+    public float turnSpeed = 10f;  // 회전속도
     private Vector3 moveDirection; // 기본 달리기 벡터
     float horizontal;
     float vertical;
 
     Rigidbody playerRigidbody;
     Animator animator;
+    Transform transform;
 
     AimandShoot aimAndShoot;
     void Start()
     {
+        transform = GetComponent<Transform>();
         aimAndShoot = GameObject.Find("Player").GetComponent<AimandShoot>();
         playerRigidbody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
@@ -35,7 +37,7 @@ public class PlayerControl : MonoBehaviour
 
             animator.SetBool("IsWalking", isWalking); // 이동 시작
 
-            if (Input.GetKey(KeyCode.S))
+            if (Input.GetKey(KeyCode.S))  // 
             {
                 animator.SetBool("IsBack", true);
             }
@@ -61,7 +63,7 @@ public class PlayerControl : MonoBehaviour
         }
         //desiredForward.Set(horizontal, 0f, vertical);
         //desiredForward = desiredForward.normalized;
-        //desiredForward = Vector3.RotateTowards(transform.forward, moveDirection, turnSpeed * Time.deltaTime, 0f);
+        
         //rotation = Quaternion.LookRotation(desiredForward);  
     }
     void FixedUpdate()
@@ -71,18 +73,23 @@ public class PlayerControl : MonoBehaviour
         if (aimAndShoot.cursorVisible == false)
         {
             bool hasHorizontalInput = !Mathf.Approximately(horizontal, 0f);
-
+            
             moveDirection = new Vector3(horizontal, 0f, vertical).normalized; // 이동벡터 정규화
                                                                               // Rigidbody로 캐릭터 이동 실행
+            Vector3 desiredForward = Vector3.RotateTowards(transform.forward, moveDirection, turnSpeed * Time.deltaTime, 0f);
+            Quaternion targetRotate = Quaternion.LookRotation(desiredForward);
+
             playerRigidbody.MovePosition(playerRigidbody.position + transform.TransformDirection(moveDirection) * moveSpeed * Time.deltaTime);
 
             if (hasHorizontalInput && Input.GetKey(KeyCode.W))  // 좌우 입력이 있고 전진 중일 경우 대각방향 회전이동
             {
-                transform.Rotate(horizontal * Vector3.up * turnSpeed);  // 좌우 입력만 있을 경우 옆걸음으로 이동한다.
+                //transform.Rotate(horizontal * Vector3.up * turnSpeed);  // 좌우 입력만 있을 경우 옆걸음으로 이동한다.
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotate, Time.deltaTime * turnSpeed); // 대각방향을 바라보고 달리기
             }
             else if (hasHorizontalInput && Input.GetKey(KeyCode.S)) //좌우 입력이 있고 후진 중일 경우 대각방향 회전이동
             {
-                transform.Rotate(horizontal * Vector3.up * turnSpeed);
+                //transform.Rotate(horizontal * Vector3.up * turnSpeed);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotate, Time.deltaTime * turnSpeed);
             }
 
         }
