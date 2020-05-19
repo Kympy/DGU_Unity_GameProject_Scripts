@@ -5,13 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class AimandShoot : MonoBehaviour
 {
-    bool cursorVisible = false; // 커서 보이기/숨기기 변수
+    public bool cursorVisible = false; // 커서 보이기/숨기기 변수
     bool aimMode = false; // 조준모드 활성/비활성 변수
 
     PlayerControl playerControl;
 
     Animator animator;
-
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; // 기본 커서 중앙고정
@@ -21,7 +20,7 @@ public class AimandShoot : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab)) // Tab 키를 이용한 커서 숨김/보이기
+        if (Input.GetKeyDown(KeyCode.Tab)) // Tab 키를 이용한 커서 숨김/보이기, 잠금/해제
         {
             cursorVisible = !cursorVisible;
             if(cursorVisible)
@@ -50,7 +49,7 @@ public class AimandShoot : MonoBehaviour
         }
         
 
-        if (aimMode && Input.GetKey(KeyCode.Mouse0)) // 조준모드 활성 & 좌클릭 시 공격
+        if (cursorVisible == false && aimMode && Input.GetKey(KeyCode.Mouse0)) // 커서숨김이고 & 조준모드 활성 & 좌클릭 시 공격
         {
             animator.SetBool("IsShooting", true);
         }
