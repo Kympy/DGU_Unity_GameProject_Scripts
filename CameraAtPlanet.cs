@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SightControl : MonoBehaviour
+public class CameraAtPlanet : MonoBehaviour
 {
     Vector3 xSight;
     Vector3 ySight;
@@ -12,7 +12,7 @@ public class SightControl : MonoBehaviour
 
     public GameObject player;
 
-    void Update()
+    void LateUpdate()
     {
         if (Cursor.visible == false)
         {

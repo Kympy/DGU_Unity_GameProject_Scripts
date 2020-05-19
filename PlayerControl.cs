@@ -64,14 +64,15 @@ public class PlayerControl : MonoBehaviour
         {
             bool hasHorizontalInput = !Mathf.Approximately(horizontal, 0f);
             
-            moveDirection = new Vector3(horizontal, 0f, vertical).normalized; // 이동벡터 정규화
-                                                                              // Rigidbody로 캐릭터 이동 실행
-            Vector3 desiredForward = Vector3.RotateTowards(transform.forward, moveDirection, turnSpeed * Time.deltaTime, 0f);
-            Quaternion targetRotate = Quaternion.LookRotation(desiredForward);
-
+            moveDirection = new Vector3(horizontal, 0f, vertical).normalized; // 이동벡터 정규화 // Rigidbody로 캐릭터 이동 실행
             playerRigidbody.MovePosition(playerRigidbody.position + transform.TransformDirection(moveDirection) * moveSpeed * Time.deltaTime);
 
-            if (hasHorizontalInput && Input.GetKey(KeyCode.W))  // 좌우 입력이 있고 전진 중일 경우 대각방향 회전 후 이동
+            //Vector3 desiredForward = Vector3.RotateTowards(transform.forward, moveDirection, turnSpeed * Time.deltaTime, 0f);
+            //Quaternion targetRotate = Quaternion.LookRotation(desiredForward);
+
+
+
+            /*if (hasHorizontalInput && Input.GetKey(KeyCode.W))  // 좌우 입력이 있고 전진 중일 경우 대각방향 회전 후 이동
             {
                 //transform.Rotate(horizontal * Vector3.up * turnSpeed);  // 좌우 입력만 있을 경우 옆걸음으로 이동한다.
                 transform.rotation = Quaternion.Lerp(transform.rotation, targetRotate, Time.deltaTime * turnSpeed); // 대각방향을 바라보고 달리기
@@ -80,7 +81,7 @@ public class PlayerControl : MonoBehaviour
             {
                 //transform.Rotate(horizontal * Vector3.up * turnSpeed);
                 transform.rotation = Quaternion.Lerp(transform.rotation, targetRotate, Time.deltaTime * turnSpeed);
-            }
+            }*/
 
         }
     }
