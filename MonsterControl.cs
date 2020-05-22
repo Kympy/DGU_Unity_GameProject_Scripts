@@ -56,12 +56,12 @@ public class MonsterControl : MonoBehaviour
             switch(currentState)
             {
                 case CurrentState.idle:
-                    navAgent.Stop();
+                    navAgent.isStopped = true;
                     alienAnimator.SetBool("IsTrace", false);
                     break;
                 case CurrentState.trace:
                     navAgent.destination = playerTransform.position + attackDistance * Vector3.back;
-                    navAgent.Resume();
+                    navAgent.isStopped = false;
                     alienAnimator.SetBool("IsTrace", true);
                     break;
                 case CurrentState.attack:

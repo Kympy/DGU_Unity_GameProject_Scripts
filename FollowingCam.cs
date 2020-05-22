@@ -4,11 +4,11 @@ using UnityEngine;
 public class FollowingCam : MonoBehaviour
 {   
     public Transform target; //추적할 대상
-    public float distance = 3.5f;  
+    public float distance = 5f;  
     public float xSpeed = 150.0f; //카메라 회전 속도
     public float ySpeed = 100.0f;
    
-    private float x = 40.0f;//카메라 초기 위치
+    private float x = 0.0f;//카메라 초기 위치
     private float y = 0.0f;
 
     public float yMinLimit = -20f; //y값 제한 (위 아래 제한)
@@ -44,7 +44,7 @@ public class FollowingCam : MonoBehaviour
 
             //카메라 위치 변화 계산
             Quaternion rotation = Quaternion.Euler(y, x, 0);
-            Vector3 position = rotation * new Vector3(1.5f, 0.9f, -distance) + target.position + new Vector3(0.0f, 0, 0.0f); //위치벡터
+            Vector3 position = rotation * new Vector3(1.5f, 2.8f, -distance) + target.position + new Vector3(0.0f, 0, 0.0f); //위치벡터
 
             transform.rotation = rotation;
             target.rotation = Quaternion.Euler(0, x, 0);

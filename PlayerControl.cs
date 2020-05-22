@@ -33,7 +33,7 @@ public class PlayerControl : MonoBehaviour
 
             animator.SetBool("IsWalking", isWalking); // 이동 시작
 
-            if (Input.GetKey(KeyCode.S))  // 
+            /*if (Input.GetKey(KeyCode.S))  // 
             {
                 animator.SetBool("IsBack", true);
             }
@@ -55,7 +55,7 @@ public class PlayerControl : MonoBehaviour
             {
                 animator.SetBool("IsFront", true);
             }
-            else animator.SetBool("IsFront", false);
+            else animator.SetBool("IsFront", false);*/  //블렌드 트리 사용
         }
     }
     void FixedUpdate()
