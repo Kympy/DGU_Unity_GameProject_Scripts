@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class AimandShoot : MonoBehaviour
 {
     bool cursorVisible = false; // 커서 보이기/숨기기 변수
-    bool aimMode = false; // 조준모드 활성/비활성 변수
+    public bool aimMode = false; // 조준모드 활성/비활성 변수
 
     PlayerControl playerControl;
 
