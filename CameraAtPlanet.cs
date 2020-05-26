@@ -12,6 +12,13 @@ public class CameraAtPlanet : MonoBehaviour
 
     public GameObject player;
 
+    private Camera mainCamera;
+
+    private void Start()
+    {
+        mainCamera = GetComponent<Camera>();
+        mainCamera.transform.localRotation = Quaternion.Euler(9f, 0, 0);
+    }
     void LateUpdate()
     {
         if (Cursor.visible == false)

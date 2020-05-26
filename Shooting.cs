@@ -8,6 +8,7 @@ public class Shooting : MonoBehaviour
     public GameObject bullet;
     public Transform firePosition;
     public AimandShoot aimAndShoot;
+    public bool isShoot = false; // bullet bar 조정을 위한 값
 
     private float timer;
     public float attackCoolTime = 0.2f; // 발사 쿨타임
@@ -32,6 +33,11 @@ public class Shooting : MonoBehaviour
         if (aimAndShoot.aimMode == true && Input.GetMouseButton(0) == true)
         {
             Instantiate(bullet, firePosition.transform.position, firePosition.transform.rotation); // 총알복사후 발사
+            isShoot = true;
+        }
+        else
+        {
+            isShoot = false;
         }
     }
 }
