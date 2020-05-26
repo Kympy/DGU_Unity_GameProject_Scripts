@@ -1,0 +1,43 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class MonsterHP : MonoBehaviour
+{
+    public Slider hpSlider;
+    public MonsterControl monsterControl;
+    public float speed = 2f;
+    public float currentHP; // 초기 체력
+    public float maxHP = 100f; // 최대 체력
+
+    private CanvasGroup hpCanvas;
+    private float hpRate;
+    private float timer; // 몬스터 ui지속시간
+    void Start()
+    {
+        hpSlider = GameObject.Find("HPSlider").GetComponent<Slider>();
+        monsterControl = GameObject.Find("alien character01").GetComponent<MonsterControl>();
+        currentHP = maxHP; // 초기 체력 설정
+        hpCanvas = GameObject.Find("MonsterHPCanvas").GetComponent<CanvasGroup>();
+        hpCanvas.alpha = 0f;
+    }
+
+    void Update()
+    {
+        hpRate = currentHP / maxHP;
+        hpSlider.value = Mathf.Lerp(hpSlider.value, hpRate, Time.deltaTime * speed);
+
+        if(currentHP <= 0f)
+        {
+            currentHP = 0f;
+            monsterControl.isDead = true; // 몬스터컨트롤 스크립트의 isDead라는 bool값 변경
+            timer += Time.deltaTime;
+            if (timer > 4f) // 죽는모션 끝나고 hp ui 사라짐
+            {
+                hpCanvas.alpha = 0;
+            }
+        }
+    }
+}

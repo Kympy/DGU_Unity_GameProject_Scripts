@@ -23,7 +23,7 @@ public class LoadingScene : MonoBehaviour
         //allowSceneActivation 이 true가 되는 순간이 바로 다음 씬으로 넘어가는 시점
 
         float timer = 0.0f;
-        float delayTime = 2f;
+        float delayTime = 3f;
         while (!oper.isDone)
         {
             yield return null;

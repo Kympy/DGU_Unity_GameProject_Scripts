@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     private float timer;
-    private float remainTime = 3f; //총알 지속시간
+    private float remainTime = 1.5f; //총알 지속시간
     public float shootSpeed = 1f;
     void Update()
     {

@@ -2,31 +2,54 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.PlayerLoop;
+using UnityEngine.UIElements;
 
 public class MonsterControl : MonoBehaviour
 {
-    public enum CurrentState { idle, trace, attack, dead };
+    public enum CurrentState { idle, trace, attack, hit, dead };
     public CurrentState currentState = CurrentState.idle;
     // 몬스터 상태 정의, 현재상태는 idle
     public float traceDistance = 15f; // 몬스터 추적거리
-    public float attackDistance = 7f; // 몬스터 공격거리
+    public float attackDistance = 8f; // 몬스터 공격거리
+    private float deadTime = 4f; // 죽는 시간
 
-    bool isDead = false;
+    public bool isDead = false; // MonsterHP 에서 이 값을 통해 사망 애니메이션 재생
 
     Transform monsterTransform;
     Transform playerTransform;
     NavMeshAgent navAgent;
     Animator alienAnimator;
+
+    private float timer;
     void Start()
     {
         monsterTransform = this.gameObject.GetComponent<Transform>();
         playerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
         navAgent = this.gameObject.GetComponent<NavMeshAgent>();
-        navAgent.destination = playerTransform.position +  attackDistance * Vector3.back; //플레이어를 목적지로 설정
+
         alienAnimator = GetComponent<Animator>();
+
+        navAgent.destination = playerTransform.position + attackDistance * Vector3.forward; //플레이어를 목적지로 설정
 
         StartCoroutine(this.CheckState());
         StartCoroutine(this.CheckStateForAnimation());
+    }
+    void Update()
+    {
+        if (isDead == true)
+        {
+            currentState = CurrentState.dead;
+            alienAnimator.SetBool("IsDead", true);
+            isDead = false;
+            timer += Time.deltaTime;
+            if (timer >= deadTime) // 죽는 모션이 끝나면 오브젝트 삭제
+            {
+                Destroy(this.gameObject);
+
+            }
+        }
+        else isDead = false;
     }
     IEnumerator CheckState()
     {
@@ -39,7 +62,7 @@ public class MonsterControl : MonoBehaviour
             {
                 currentState = CurrentState.attack; // 사정거리 안일때 공격
             }
-            else if(betweenDistance <= traceDistance)
+            else if(betweenDistance < traceDistance)
             {
                 currentState = CurrentState.trace; // 추적거리 안이면 추적
             }
@@ -58,13 +81,21 @@ public class MonsterControl : MonoBehaviour
                 case CurrentState.idle:
                     navAgent.isStopped = true;
                     alienAnimator.SetBool("IsTrace", false);
+                    alienAnimator.SetBool("IsAttack", false);
                     break;
                 case CurrentState.trace:
-                    navAgent.destination = playerTransform.position + attackDistance * Vector3.back;
+                    navAgent.destination = playerTransform.position + attackDistance * Vector3.forward;
                     navAgent.isStopped = false;
-                    alienAnimator.SetBool("IsTrace", true);
+                    alienAnimator.SetBool("IsTrace",true);
                     break;
-                case CurrentState.attack:
+                case CurrentState.attack:   
+                    alienAnimator.SetBool("IsAttack", true);
+                    this.transform.LookAt(playerTransform);
+                    break;
+                case CurrentState.hit:
+                    alienAnimator.SetTrigger("IsGetAHit");
+                    break;
+                default: 
                     break;
             }
             yield return null;
