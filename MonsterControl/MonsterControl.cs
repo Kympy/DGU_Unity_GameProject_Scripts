@@ -37,16 +37,20 @@ public class MonsterControl : MonoBehaviour
     }
     void Update()
     {
+        if (currentState == CurrentState.attack || currentState == CurrentState.trace) // 추적, 공격중이라면 플레이어를 바라본다
+        {
+             this.transform.LookAt(playerTransform);
+        }
         if (isDead == true)
         {
-            currentState = CurrentState.dead;
+            alienAnimator.SetBool("IsAttack", false);
+            alienAnimator.SetBool("IsTrace", false);
             alienAnimator.SetBool("IsDead", true);
             isDead = false;
             timer += Time.deltaTime;
             if (timer >= deadTime) // 죽는 모션이 끝나면 오브젝트 삭제
             {
                 Destroy(this.gameObject);
-
             }
         }
         else isDead = false;
@@ -90,12 +94,9 @@ public class MonsterControl : MonoBehaviour
                     break;
                 case CurrentState.attack:   
                     alienAnimator.SetBool("IsAttack", true);
-                    this.transform.LookAt(playerTransform);
                     break;
                 case CurrentState.hit:
                     alienAnimator.SetTrigger("IsGetAHit");
-                    break;
-                default: 
                     break;
             }
             yield return null;
