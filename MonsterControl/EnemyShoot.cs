@@ -6,11 +6,10 @@ using UnityEngine.UIElements;
 public class EnemyShoot : MonoBehaviour
 {
     public GameObject bullet;
-    public Transform firePosition;
+    public Transform firePosition; // 몬스터의 총알 사격 위치
     private Animator animator;
 
-    public float attackCoolTime = 1.5f; // 발사 쿨타임
-    public bool bulletIslack = false;
+    public float attackCoolTime = 1.5f; // 몬스터의 공격 발사 쿨타임
 
     private float timer;
 

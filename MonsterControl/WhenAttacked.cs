@@ -4,22 +4,20 @@ using UnityEngine;
 
 public class WhenAttacked : MonoBehaviour
 {
-    private CanvasGroup hpCanvas;
-    public MonsterControl monster;
-    public MonsterHP monsterHp;
     public float damage = 5f; // 한발당 받는 데미지
+    public GameObject effect; // 피격 이펙트
+    public GameObject effectPosition; // 피격 이펙트 위치
 
-    public GameObject effect;
-    public GameObject effectPosition;
-    public GameObject alienNumber;
-
+    private CanvasGroup hpCanvas;
+    private MonsterControl monster;
+    private MonsterHP monsterHp;
     private GameObject playingEffect;
 
     void Start()
     {
-        monsterHp = GameObject.Find("MonsterHPCanvas").GetComponent<MonsterHP>();
-        monster = GameObject.Find(alienNumber.name).GetComponent<MonsterControl>();
-        hpCanvas = GameObject.Find("MonsterHPCanvas").GetComponent<CanvasGroup>();
+        monsterHp = this.GetComponentInChildren<MonsterHP>();
+        monster = this.GetComponent<MonsterControl>();
+        hpCanvas = this.GetComponentInChildren<CanvasGroup>();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -28,9 +26,10 @@ public class WhenAttacked : MonoBehaviour
         {
             Destroy(collision.gameObject); // 총알에 맞으면 총알삭제
             hpCanvas.alpha = 1; // 몬스터 체력바 보이기
-            monsterHp.currentHP -= damage; // 맞으면 체력 데미지만큼 감소
+            monsterHp.currentHP -= damage;// 맞으면 체력 데미지만큼 감소
+            Debug.Log(monsterHp.currentHP);
             playingEffect = Instantiate(effect, effectPosition.transform.position, effectPosition.transform.rotation);
-            Destroy(playingEffect, 1f);
+            Destroy(playingEffect, 1f); // 피격 이펙트 1초 재생후 삭제
             monster.currentState = MonsterControl.CurrentState.hit; // 몬스터상태를 hit로 변경
         }
     }

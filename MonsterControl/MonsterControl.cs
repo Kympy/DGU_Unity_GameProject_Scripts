@@ -27,13 +27,12 @@ public class MonsterControl : MonoBehaviour
         monsterTransform = this.gameObject.GetComponent<Transform>();
         playerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
         navAgent = this.gameObject.GetComponent<NavMeshAgent>();
-
         alienAnimator = GetComponent<Animator>();
 
         navAgent.destination = playerTransform.position + attackDistance * Vector3.forward; //플레이어를 목적지로 설정
 
-        StartCoroutine(this.CheckState());
-        StartCoroutine(this.CheckStateForAnimation());
+        StartCoroutine(this.CheckState()); // 몬스터 상태체크
+        StartCoroutine(this.CheckStateForAnimation()); // 상태에 따른 애니메이션
     }
     void Update()
     {
@@ -43,10 +42,10 @@ public class MonsterControl : MonoBehaviour
         }
         if (isDead == true)
         {
-            alienAnimator.SetBool("IsAttack", false);
+            alienAnimator.SetBool("IsAttack", false); // 죽으면 모든 애니메이션 정지
             alienAnimator.SetBool("IsTrace", false);
             alienAnimator.SetBool("IsDead", true);
-            isDead = false;
+            isDead = false; // 다시 false값으로 바꿔줌
             timer += Time.deltaTime;
             if (timer >= deadTime) // 죽는 모션이 끝나면 오브젝트 삭제
             {

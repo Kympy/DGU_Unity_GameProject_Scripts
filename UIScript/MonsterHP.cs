@@ -6,25 +6,28 @@ using UnityEngine.UI;
 
 public class MonsterHP : MonoBehaviour
 {
-    public Slider hpSlider;
-    public MonsterControl monsterControl;
+    private Slider hpSlider;
+    private MonsterControl monsterControl;
+    private CanvasGroup hpCanvas;
+    private CapsuleCollider alien;
+
     public float speed = 2f;
     public float currentHP; // 초기 체력
     public float maxHP = 100f; // 최대 체력
-    public GameObject alienNumber;
-
-    private CanvasGroup hpCanvas;
-    private float hpRate;
+    
+    private float hpRate; // hp 비율
     private float timer; // 몬스터 ui지속시간
-    private CapsuleCollider alien;
+    
     void Start()
     {
-        hpSlider = GameObject.Find("HPSlider").GetComponent<Slider>();
-        monsterControl = GameObject.Find(alienNumber.name).GetComponent<MonsterControl>();
-        alien = GameObject.Find(alienNumber.name).GetComponent<CapsuleCollider>();
+        hpSlider = this.GetComponentInChildren<Slider>();
+        monsterControl = this.GetComponentInParent<MonsterControl>();
+        alien = this.GetComponentInParent<CapsuleCollider>();
+
         currentHP = maxHP; // 초기 체력 설정
-        hpCanvas = GameObject.Find("MonsterHPCanvas").GetComponent<CanvasGroup>();
-        hpCanvas.alpha = 0f; // 몬스터 hp ui 안보이게
+
+        hpCanvas = this.GetComponent<CanvasGroup>();
+        hpCanvas.alpha = 0f; // 초기 몬스터 hp ui 안보이게
     }
 
     void Update()
