@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.PlayerLoop;
@@ -7,13 +9,10 @@ using UnityEngine.UIElements;
 
 public class MonsterControl : MonoBehaviour
 {
-    public enum CurrentState { idle, trace, attack, hit, dead };
-    public CurrentState currentState = CurrentState.idle;
-    // 몬스터 상태 정의, 현재상태는 idle
+    public enum CurrentState { idle, trace, attack, hit, dead, patrol };
+    public CurrentState currentState = CurrentState.idle; // 몬스터 상태 정의, 현재상태는 idle
     public float traceDistance = 15f; // 몬스터 추적거리
     public float attackDistance = 8f; // 몬스터 공격거리
-    private float deadTime = 4f; // 죽는 시간
-
     public bool isDead = false; // MonsterHP 에서 이 값을 통해 사망 애니메이션 재생
 
     Transform monsterTransform;
@@ -22,12 +21,16 @@ public class MonsterControl : MonoBehaviour
     Animator alienAnimator;
 
     private float timer;
+    private float deadTime = 4f; // 죽는 시간
+    private SpawnMonster spawn; // 스폰 관리 변수
+
     void Start()
     {
         monsterTransform = this.gameObject.GetComponent<Transform>();
         playerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
         navAgent = this.gameObject.GetComponent<NavMeshAgent>();
         alienAnimator = GetComponent<Animator>();
+        spawn = GetComponent<SpawnMonster>();
 
         navAgent.destination = playerTransform.position + attackDistance * Vector3.forward; //플레이어를 목적지로 설정
 
@@ -40,19 +43,22 @@ public class MonsterControl : MonoBehaviour
         {
              this.transform.LookAt(playerTransform);
         }
-        if (isDead == true)
+        if(isDead == true)
         {
-            alienAnimator.SetBool("IsAttack", false); // 죽으면 모든 애니메이션 정지
-            alienAnimator.SetBool("IsTrace", false);
             alienAnimator.SetBool("IsDead", true);
-            isDead = false; // 다시 false값으로 바꿔줌
-            timer += Time.deltaTime;
-            if (timer >= deadTime) // 죽는 모션이 끝나면 오브젝트 삭제
+            alienAnimator.SetBool("IsTrace", false);
+            alienAnimator.SetBool("IsAttack", false);
+
+            if (isDead == true)
             {
-                Destroy(this.gameObject);
+                timer += Time.deltaTime;
+                if (timer >= deadTime) // 죽는 모션이 끝나면 오브젝트 삭제
+                {
+                    Destroy(this.gameObject);
+                }
             }
+            else isDead = false;
         }
-        else isDead = false;
     }
     IEnumerator CheckState()
     {
@@ -72,6 +78,10 @@ public class MonsterControl : MonoBehaviour
             else
             {
                 currentState = CurrentState.idle;
+            }
+            if(isDead == true)
+            {
+                spawn.currentMonsterCount -= 1;
             }
         }
     }
@@ -101,5 +111,4 @@ public class MonsterControl : MonoBehaviour
             yield return null;
         }
     }
-
 }

@@ -3,29 +3,28 @@ using System.Collections;
 
 public class SpawnMonster : MonoBehaviour
 {
-
-    //points는 배열로 담을 수 있도록 한다.
-    public Transform[] points;
     public GameObject monster;
-    // 3초마다 몬스터를 만든다.
-    public float createTime = 3.0f;
+    public float createTime = 4f; // 4초마다 몬스터 생성
+    public int maxMonsterCount = 30; // 맵에 생성되는 최대 몬스터 수
+    public int currentMonsterCount = 1;
 
+    public Transform[] spawnPoints;
 
-    // Use this for initialization
     void Start()
     {
-        // points를 게임시작과 함께 배열에 담기
-        //points = GameObject.Find("SpawnPoint").GetComponentsInChildren<transform>();
+        // spawnpoints를 게임시작과 함께 배열에 담기
+        spawnPoints = GameObject.Find("SpawnPoint").GetComponentsInChildren<Transform>();
         StartCoroutine(this.CreateMonster());
     }
 
     IEnumerator CreateMonster()
     {
         // 계속해서 createTime동안 monster생성
-        while (true)
+        while (currentMonsterCount < 30)
         {
-            int idx = Random.Range(1, points.Length);
-            Instantiate(monster, points[idx].position, Quaternion.identity);
+            int index = Random.Range(1, spawnPoints.Length);
+            Instantiate(monster, spawnPoints[index].position, Quaternion.identity);
+            currentMonsterCount += 1;
 
             yield return new WaitForSeconds(createTime);
         }
