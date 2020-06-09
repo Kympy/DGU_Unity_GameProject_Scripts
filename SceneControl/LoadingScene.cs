@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -36,7 +35,7 @@ public class LoadingScene : MonoBehaviour
             
             if (oper.progress >= 0.9f)
             {
-                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, 1f, timer);
+                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, 1.0f, timer);
 
                 if (progressBar.fillAmount == 1.0f && timer > delayTime)
                 {

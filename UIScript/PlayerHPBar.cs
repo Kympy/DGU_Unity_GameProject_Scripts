@@ -9,7 +9,7 @@ public class PlayerHPBar : MonoBehaviour
 {
     public Image HPBar;
 
-    public float currentHP;
+    public static float currentHP;
     private float maxHP = 1000f;
     private float hpRate;
     private float speed = 3f;
