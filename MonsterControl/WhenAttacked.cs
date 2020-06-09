@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class WhenAttacked : MonoBehaviour
@@ -13,13 +14,13 @@ public class WhenAttacked : MonoBehaviour
     private MonsterHP monsterHp;
     private GameObject playingEffect;
 
+
     void Start()
     {
         monsterHp = this.GetComponentInChildren<MonsterHP>();
         monster = this.GetComponent<MonsterControl>();
         hpCanvas = this.GetComponentInChildren<CanvasGroup>();
     }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Bullet")

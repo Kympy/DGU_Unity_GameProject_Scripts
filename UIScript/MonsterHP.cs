@@ -30,7 +30,7 @@ public class MonsterHP : MonoBehaviour
         currentHP = maxHP; // 초기 체력 설정
 
         hpCanvas = this.GetComponent<CanvasGroup>();
-        hpCanvas.alpha = 0f; // 초기 몬스터 hp ui 안보이게
+        hpCanvas.alpha = 0; // 초기 몬스터 hp ui 안보이게
     }
 
     void Update()
@@ -39,7 +39,7 @@ public class MonsterHP : MonoBehaviour
         hpSlider.value = Mathf.Lerp(hpSlider.value, hpRate, Time.deltaTime * speed);
         canvas.sortingOrder = 0;
 
-        if(currentHP <= 0f)
+        if (currentHP <= 0f)
         {
             currentHP = 0f;
             alien.enabled = false; // 죽으면 콜라이더 사라짐

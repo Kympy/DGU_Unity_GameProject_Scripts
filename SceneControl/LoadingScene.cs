@@ -6,19 +6,23 @@ using UnityEngine.SceneManagement;
 
 public class LoadingScene : MonoBehaviour
 {
-    //[SerializeField]
     public Image progressBar;
-
+    private int index;
     private void Start()
     {
-        StartCoroutine(LoadScene());
+        index = PortalEnter.sceneIndex;
+        Debug.Log(index);
+        if (index == 0) StartCoroutine(LoadScene(2)); // 스타트씬 >> 에일리언
+        else if (index == 2) StartCoroutine(LoadScene(3)); // 에일리언 >> 세컨드씬
+        else if (index == 3) StartCoroutine(LoadScene(4)); // 세컨드씬 >> 좀비
     }
-    IEnumerator LoadScene()
+    IEnumerator LoadScene(int num)
     {
         yield return null;
+        AsyncOperation oper = SceneManager.LoadSceneAsync(num);
 
-        AsyncOperation oper = SceneManager.LoadSceneAsync("AlienScene");
-        //LoadSceneAsync ("게임씬이름")
+        
+        //LoadSceneAsync ("게임씬이름 or Index")
         oper.allowSceneActivation = false;
         //allowSceneActivation 이 true가 되는 순간이 바로 다음 씬으로 넘어가는 시점
 

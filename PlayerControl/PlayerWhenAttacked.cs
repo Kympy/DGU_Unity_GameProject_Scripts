@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerWhenAttacked : MonoBehaviour
 {
+    private const string Name = "HPBar";
     public GameObject effect;
     public GameObject effectPosition;
     public float alienDamage = 50f; // 에일리언 공격 데미지
@@ -14,7 +15,7 @@ public class PlayerWhenAttacked : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        hpBar = GameObject.Find("HPBar").GetComponent<PlayerHPBar>();
+        //hpBar = GameObject.Find(Name).GetComponent<PlayerHPBar>();
     }
     private void OnTriggerEnter(Collider other)
     {

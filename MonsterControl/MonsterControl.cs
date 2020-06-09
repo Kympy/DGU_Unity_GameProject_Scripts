@@ -34,6 +34,12 @@ public class MonsterControl : MonoBehaviour
 
         navAgent.destination = playerTransform.position + attackDistance * Vector3.forward; //플레이어를 목적지로 설정
 
+        int randNum = Random.Range(1, 4);
+        if (randNum == 1) monsterTransform.position = (monsterTransform.transform.position + 2 * Vector3.forward);
+        else if (randNum == 2) monsterTransform.transform.position = (monsterTransform.transform.position + 2 * Vector3.back);
+        else if (randNum == 3) monsterTransform.transform.position = (monsterTransform.transform.position + 2 * Vector3.right);
+        else monsterTransform.transform.position = (monsterTransform.transform.position + 2 * Vector3.left);
+
         StartCoroutine(this.CheckState()); // 몬스터 상태체크
         StartCoroutine(this.CheckStateForAnimation()); // 상태에 따른 애니메이션
     }

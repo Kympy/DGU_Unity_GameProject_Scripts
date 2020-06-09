@@ -1,28 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Dynamic;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PortalEnter : MonoBehaviour
 {
-    public GameObject player;
+    public static int sceneIndex;
 
-    bool isPlayerAtPortal = false;
+    private void Start()
+    {
+        sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        Debug.Log(sceneIndex);
+    }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject == player)
+        if(other.gameObject.tag == "Player")
         {
-            isPlayerAtPortal = true;
+            SceneManager.LoadScene(1); // 로딩화면 부르기
         }
     }
-    private void Update()
-    {
-        if(isPlayerAtPortal == true)
-        {
-            SceneManager.LoadScene(1);
-        }
-    }
-
 }
