@@ -7,7 +7,6 @@ public class AimandShoot : MonoBehaviour
 {
     bool cursorVisible = false; // 커서 보이기/숨기기 변수
     public bool aimMode = false; // 조준모드 활성/비활성 변수
-
     PlayerControl playerControl;
 
     Animator animator;
@@ -27,11 +26,13 @@ public class AimandShoot : MonoBehaviour
             {
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
+                Time.timeScale = 0; // 커서가 보이면 게임 일시정지
             }
             else
             {
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
+                Time.timeScale = 1; // 커서 숨기면 게임 다시 진행
             }
         }
 

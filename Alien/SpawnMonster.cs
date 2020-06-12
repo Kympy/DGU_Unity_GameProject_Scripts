@@ -4,9 +4,9 @@ using System.Collections;
 public class SpawnMonster : MonoBehaviour
 {
     public GameObject monster;
-    public float createTime = 3f; // 4초마다 몬스터 생성
+    public float createTime = 3f; // 3초마다 몬스터 생성
     public int maxMonsterCount = 30; // 맵에 생성되는 최대 몬스터 수
-    public int currentMonsterCount = 1;
+    public static int currentMonsterCount = 0;
 
     public Transform[] spawnPoints;
 
@@ -25,6 +25,7 @@ public class SpawnMonster : MonoBehaviour
             int index = Random.Range(1, spawnPoints.Length);
             Instantiate(monster, spawnPoints[index].position, Quaternion.identity);
             currentMonsterCount += 1;
+            //Debug.Log(currentMonsterCount);
 
             yield return new WaitForSeconds(createTime);
         }

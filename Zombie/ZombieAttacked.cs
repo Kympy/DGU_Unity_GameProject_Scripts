@@ -10,14 +10,14 @@ public class ZombieAttacked : MonoBehaviour
     public GameObject effectPosition; // 피격 이펙트 위치
 
     private CanvasGroup hpCanvas;
-    private ZombieHP zombieHp;
     private GameObject playingEffect;
+    private ZombieHP zombieHP;
 
 
     void Start()
     {
-        zombieHp = this.GetComponentInChildren<ZombieHP>();
         hpCanvas = this.GetComponentInChildren<CanvasGroup>();
+        zombieHP = this.GetComponentInChildren<ZombieHP>();
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -25,8 +25,8 @@ public class ZombieAttacked : MonoBehaviour
         {
             Destroy(collision.gameObject); // 총알에 맞으면 총알삭제
             hpCanvas.alpha = 1; // 몬스터 체력바 보이기
-            zombieHp.currentHP -= damage;// 맞으면 체력 데미지만큼 감소
-            Debug.Log(zombieHp.currentHP);
+            zombieHP.currentHP -= damage;// 맞으면 체력 데미지만큼 감소
+            Debug.Log(zombieHP.currentHP);
             playingEffect = Instantiate(effect, effectPosition.transform.position, effectPosition.transform.rotation);
             Destroy(playingEffect, 1f); // 피격 이펙트 1초 재생후 삭제
         }

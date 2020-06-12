@@ -5,11 +5,28 @@ using UnityEngine;
 public class PlayerWhenAttacked : MonoBehaviour
 {
     public GameObject effect;
+    public GameObject effect02;
+    public GameObject smokeEffect;
     public GameObject effectPosition;
     public float alienDamage = 50f; // 에일리언 공격 데미지
-    public float zombieDamage = 25f; // 좀비 데미지
+    public float zombieDamage = 100f; // 좀비 데미지
 
     private GameObject playingEffect;
+    private GameObject crashedEffect;
+
+    private void Start()
+    {
+        StartCoroutine(this.SmokeEffect());
+    }
+    IEnumerator SmokeEffect()
+    {
+        yield return new WaitForSeconds(0.5f);
+        while (PlayerHPBar.currentHP < 350f)
+        {
+            crashedEffect = Instantiate(smokeEffect, effectPosition.transform.position, effectPosition.transform.rotation);
+            Destroy(playingEffect, 1f);
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -29,7 +46,7 @@ public class PlayerWhenAttacked : MonoBehaviour
         else if (other.gameObject.tag == "ZombieArm")
         {
             PlayerHPBar.currentHP -= zombieDamage; // 받은 데미지 만큼 체력감소
-            playingEffect = Instantiate(effect, effectPosition.transform.position, effectPosition.transform.rotation);
+            playingEffect = Instantiate(effect02, effectPosition.transform.position, effectPosition.transform.rotation);
             Destroy(playingEffect, 1f); // 피격 이펙트
         }
     }
