@@ -39,5 +39,9 @@ public class PlayerHPBar : MonoBehaviour
         {
             HPBar.color = Color.red;
         }
+        if (currentHP == 0f)
+        {
+            currentHP = 0;
+        }
     }
 }

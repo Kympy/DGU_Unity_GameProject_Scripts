@@ -7,13 +7,13 @@ using UnityEngine.AI;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UIElements;
 
-public class MonsterControl : MonoBehaviour
+public class ZombieControl : MonoBehaviour
 {
-    public enum CurrentState { idle, trace, attack, hit, dead, patrol };
+    public enum CurrentState { idle, trace, attack, dead};
     public CurrentState currentState = CurrentState.idle; // 몬스터 상태 정의, 현재상태는 idle
-    public float traceDistance = 15f; // 몬스터 추적거리
-    public float attackDistance = 8f; // 몬스터 공격거리
-    public bool isDead = false; // MonsterHP 에서 이 값을 통해 사망 애니메이션 재생
+    public float traceDistance = 10f; // 몬스터 추적거리
+    public float attackDistance = 1.5f; // 몬스터 공격거리
+    public static bool isDead = false; // MonsterHP 에서 이 값을 통해 사망 애니메이션 재생
 
     Transform monsterTransform;
     Transform playerTransform;
@@ -35,10 +35,10 @@ public class MonsterControl : MonoBehaviour
         navAgent.destination = playerTransform.position + attackDistance * Vector3.forward; //플레이어를 목적지로 설정
 
         int randNum = Random.Range(1, 4);
-        if (randNum == 1) monsterTransform.position = (monsterTransform.transform.position + 2 * Vector3.forward);
-        else if (randNum == 2) monsterTransform.transform.position = (monsterTransform.transform.position + 2 * Vector3.back);
-        else if (randNum == 3) monsterTransform.transform.position = (monsterTransform.transform.position + 2 * Vector3.right);
-        else monsterTransform.transform.position = (monsterTransform.transform.position + 2 * Vector3.left);
+        if (randNum == 1) monsterTransform.position = (monsterTransform.transform.position + 3 * Vector3.forward);
+        else if (randNum == 2) monsterTransform.transform.position = (monsterTransform.transform.position + 3 * Vector3.back);
+        else if (randNum == 3) monsterTransform.transform.position = (monsterTransform.transform.position + 3 * Vector3.right);
+        else monsterTransform.transform.position = (monsterTransform.transform.position + 3 * Vector3.left);
 
         StartCoroutine(this.CheckState()); // 몬스터 상태체크
         StartCoroutine(this.CheckStateForAnimation()); // 상태에 따른 애니메이션
@@ -47,9 +47,9 @@ public class MonsterControl : MonoBehaviour
     {
         if (currentState == CurrentState.attack || currentState == CurrentState.trace) // 추적, 공격중이라면 플레이어를 바라본다
         {
-             this.transform.LookAt(playerTransform);
+            this.transform.LookAt(playerTransform);
         }
-        if(isDead == true)
+        if (isDead == true)
         {
             alienAnimator.SetBool("IsDead", true);
             alienAnimator.SetBool("IsTrace", false);
@@ -68,16 +68,16 @@ public class MonsterControl : MonoBehaviour
     }
     IEnumerator CheckState()
     {
-        while(!isDead) // 몬스터가 죽을때까지
+        while (!isDead) // 몬스터가 죽을때까지
         {
             yield return new WaitForSeconds(0.2f);
-            float betweenDistance = Vector3.Distance(playerTransform.position, 
+            float betweenDistance = Vector3.Distance(playerTransform.position,
                 monsterTransform.position); // 몬스터와 플레이어 사이 거리
-            if(betweenDistance <= attackDistance)
+            if (betweenDistance <= attackDistance)
             {
                 currentState = CurrentState.attack; // 사정거리 안일때 공격
             }
-            else if(betweenDistance < traceDistance)
+            else if (betweenDistance < traceDistance)
             {
                 currentState = CurrentState.trace; // 추적거리 안이면 추적
             }
@@ -85,7 +85,7 @@ public class MonsterControl : MonoBehaviour
             {
                 currentState = CurrentState.idle;
             }
-            if(isDead == true)
+            if (isDead == true)
             {
                 spawn.currentMonsterCount -= 1;
             }
@@ -93,9 +93,9 @@ public class MonsterControl : MonoBehaviour
     }
     IEnumerator CheckStateForAnimation()
     {
-        while(!isDead)
+        while (!isDead)
         {
-            switch(currentState)
+            switch (currentState)
             {
                 case CurrentState.idle:
                     navAgent.isStopped = true;
@@ -105,13 +105,11 @@ public class MonsterControl : MonoBehaviour
                 case CurrentState.trace:
                     navAgent.destination = playerTransform.position + attackDistance * Vector3.forward;
                     navAgent.isStopped = false;
-                    alienAnimator.SetBool("IsTrace",true);
+                    alienAnimator.SetBool("IsTrace", true);
+                    alienAnimator.SetBool("IsAttack", false);
                     break;
-                case CurrentState.attack:   
+                case CurrentState.attack:
                     alienAnimator.SetBool("IsAttack", true);
-                    break;
-                case CurrentState.hit:
-                    alienAnimator.SetTrigger("IsGetAHit");
                     break;
             }
             yield return null;
