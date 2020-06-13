@@ -106,8 +106,10 @@ public class MonsterControl : MonoBehaviour
                     alienAnimator.SetBool("IsTrace",true);
                     alienAnimator.SetBool("IsAttack", false);
                     break;
-                case CurrentState.attack:   
+                case CurrentState.attack:
+                    navAgent.destination = monsterTransform.position;
                     alienAnimator.SetBool("IsAttack", true);
+                    alienAnimator.SetBool("IsTrace", false);
                     break;
                 case CurrentState.hit:
                     alienAnimator.SetTrigger("IsGetAHit");

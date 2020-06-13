@@ -8,8 +8,9 @@ public class PlayerWhenAttacked : MonoBehaviour
     public GameObject effect02;
     public GameObject smokeEffect;
     public GameObject effectPosition;
-    public float alienDamage = 50f; // 에일리언 공격 데미지
-    public float zombieDamage = 100f; // 좀비 데미지
+    private float alienDamage = 50f; // 에일리언 공격 데미지
+    private float zombieDamage = 100f; // 좀비 데미지
+    private float lazerDamage = 500f; // 레이저 데미지
 
     private GameObject playingEffect;
     private GameObject crashedEffect;
@@ -48,6 +49,12 @@ public class PlayerWhenAttacked : MonoBehaviour
             PlayerHPBar.currentHP -= zombieDamage; // 받은 데미지 만큼 체력감소
             playingEffect = Instantiate(effect02, effectPosition.transform.position, effectPosition.transform.rotation);
             Destroy(playingEffect, 1f); // 피격 이펙트
+        }
+        if(other.gameObject.tag == "Lazer")
+        {
+            PlayerHPBar.currentHP -= lazerDamage;
+            playingEffect = Instantiate(effect02, effectPosition.transform.position, effectPosition.transform.rotation);
+            Destroy(playingEffect, 1f);
         }
     }
 
