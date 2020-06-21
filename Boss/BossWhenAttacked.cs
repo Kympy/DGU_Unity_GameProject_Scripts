@@ -21,7 +21,12 @@ public class BossWhenAttacked : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Bullet")
+        if (collision.gameObject.tag == "Bullet" && monsterHp.currentHP == 165f || monsterHp.currentHP == 120f || 
+            monsterHp.currentHP == 100f || monsterHp.currentHP == 70f || monsterHp.currentHP == 20f)
+        {
+            Destroy(collision.gameObject);
+        }
+        else if (collision.gameObject.tag == "Bullet")
         {
             Destroy(collision.gameObject); // 총알에 맞으면 총알삭제
             hpCanvas.alpha = 1; // 몬스터 체력바 보이기

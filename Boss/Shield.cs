@@ -10,30 +10,51 @@ public class Shield : MonoBehaviour
     public GameObject effect;
     public GameObject lazer;
     public Transform effectPosition;
+    public GameObject spawnPoint;
 
     private float timer;
     private MonsterHP bosshp;
+    Animator bossAni;
 
 
     private void Start()
     {
+
         boss = this.GetComponentInParent<BossControl>();
-        bosshp = this.GetComponent<MonsterHP>();
+        bosshp = GameObject.Find("BossHPCanvas01").GetComponent<MonsterHP>();
+        bossAni = this.GetComponentInParent<Animator>();
+        spawnPoint.gameObject.SetActive(false);
+        timer = 0f;
+        //this.gameObject.SetActive(false);
+
     }
     private void Update()
     {
-        if (boss.currentState == BossControl.CurrentState.guard)
+        if (bossAni.GetBool("IsGuard") == true && boss.isGuard == true)
         {
-            boss.isGuard = true;
-            this.gameObject.SetActive(true);
+            //this.gameObject.SetActive(true);
             timer += Time.deltaTime;
             if (timer > 2f) lazer.gameObject.SetActive(true);
             if (timer > 6f)
             {
                 lazer.gameObject.SetActive(false);
-                this.gameObject.SetActive(false);
+                //this.gameObject.SetActive(false);
                 boss.isGuard = false;
+                bosshp.currentHP -= 5f;
+                timer = 0f;
             } 
+        }
+        else if(bossAni.GetBool("IsGuard") == true && boss.isSpawn == true)
+        {
+            spawnPoint.gameObject.SetActive(true);
+            timer += Time.deltaTime;
+            if(timer > 6f)
+            {
+                spawnPoint.gameObject.SetActive(false);
+                boss.isSpawn = false;
+                bosshp.currentHP -= 5f;
+                timer = 0f;
+            }
         }
     }
 

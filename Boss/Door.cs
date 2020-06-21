@@ -14,6 +14,14 @@ public class Door : MonoBehaviour
         {
             door.enabled = false;
         }
+        else if(collision.gameObject.tag == "AlienBullet")
+        {
+            Destroy(collision.gameObject);
+        }
+        else if(collision.gameObject.tag == "Bullet")
+        {
+            Destroy(collision.gameObject);
+        }
         else door.enabled = true;
     }
 }

@@ -20,7 +20,7 @@ public class SpawnMonster : MonoBehaviour
     IEnumerator CreateMonster()
     {
         // 계속해서 createTime동안 monster생성
-        while (currentMonsterCount < 40)
+        while (currentMonsterCount < maxMonsterCount)
         {
             int index = Random.Range(1, spawnPoints.Length);
             Instantiate(monster, spawnPoints[index].position, Quaternion.identity);

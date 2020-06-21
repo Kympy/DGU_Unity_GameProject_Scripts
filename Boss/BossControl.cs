@@ -10,6 +10,8 @@ public class BossControl : MonoBehaviour
     public float attackDistance = 8f; // 몬스터 공격거리
     public bool isDead = false;
     public bool isGuard = false;
+    public bool isSpawn = false;
+    public GameObject portal;
 
     private MonsterHP bossHP;
 
@@ -60,29 +62,36 @@ public class BossControl : MonoBehaviour
         {
             yield return new WaitForSeconds(0.2f);
             float betweenDistance = Vector3.Distance(playerTransform.position, bossTransform.position); // 몬스터와 플레이어 사이 거리
-            if (isGuard == false && betweenDistance <= attackDistance)
+            if (isSpawn == false && isGuard == false && betweenDistance <= attackDistance)
             {
                 currentState = CurrentState.attack; // 사정거리 안일때 공격
             }
-            else if (isGuard == false && betweenDistance < traceDistance)
+            else if (isSpawn == false && isGuard == false && betweenDistance < traceDistance)
             {
                 currentState = CurrentState.trace; // 추적거리 안이면 추적
-            }           
-            else if (bossHP.currentHP == 165f || bossHP.currentHP == 120f || bossHP.currentHP == 70f || bossHP.currentHP == 20f)
-            {
-                currentState = CurrentState.guard; // 조건 만족시 가드
-            }
-            else if(bossHP.currentHP == 100f || bossHP.currentHP == 40f)
-            {
-                currentState = CurrentState.spawn; // 조건 만족시 몬스터 소환
             }
             else
             {
                 currentState = CurrentState.idle;
             }
+
+            if (bossHP.currentHP == 165f || bossHP.currentHP == 120f || bossHP.currentHP == 70f || bossHP.currentHP == 20f)
+            {
+                shield.SetActive(true);
+                currentState = CurrentState.guard; // 조건 만족시 가드
+                isGuard = true;
+            }
+            else if (bossHP.currentHP == 100f)
+            {
+                shield.SetActive(true);
+                currentState = CurrentState.spawn; // 조건 만족시 몬스터 소환
+                isSpawn = true;
+            }
+
             if (bossHP.currentHP == 0f)
             {
                 isDead = true;
+                portal.SetActive(true);
             }
 
         }
@@ -98,30 +107,37 @@ public class BossControl : MonoBehaviour
                     navAgent.isStopped = true;
                     bossAnimator.SetBool("IsTrace", false);
                     bossAnimator.SetBool("IsAttack", false);
+                    bossAnimator.SetBool("IsGuard", false);
+                    shield.SetActive(false);
                     break;
                 case CurrentState.trace:
                     navAgent.destination = playerTransform.position + attackDistance * Vector3.forward;
                     navAgent.isStopped = false;
                     bossAnimator.SetBool("IsTrace", true);
                     bossAnimator.SetBool("IsAttack", false);
+                    bossAnimator.SetBool("IsGuard", false);
+                    shield.SetActive(false);
                     break;
                 case CurrentState.attack:
                     navAgent.destination = bossTransform.position;
                     bossAnimator.SetBool("IsAttack", true);
                     bossAnimator.SetBool("IsTrace", false);
+                    bossAnimator.SetBool("IsGuard", false);
+                    shield.SetActive(false);
                     break;
                 case CurrentState.guard:
                     navAgent.destination = bossTransform.position;
                     bossAnimator.SetBool("IsGuard", true);
                     bossAnimator.SetBool("IsAttack", false);
                     bossAnimator.SetBool("IsTrace", false);
+                    
                     break;
                 case CurrentState.spawn:
                     navAgent.destination = bossTransform.position;
                     bossAnimator.SetBool("IsGuard", true);
                     bossAnimator.SetBool("IsAttack", false);
                     bossAnimator.SetBool("IsTrace", false);
-
+                    
                     break;
                 default:
                     break;
