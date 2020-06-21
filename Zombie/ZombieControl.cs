@@ -14,6 +14,8 @@ public class ZombieControl : MonoBehaviour
     public float traceDistance = 10f; // 몬스터 추적거리
     public float attackDistance = 2f; // 몬스터 공격거리
     public bool isDead = false;
+    public GameObject battery;
+    public GameObject lazer;
 
     private ZombieHP zombieHP;
 
@@ -84,7 +86,11 @@ public class ZombieControl : MonoBehaviour
             {
                 isDead = true;
                 SpawnMonster.currentMonsterCount -= 1;
-                //Debug.Log(SpawnMonster.currentMonsterCount);
+                int num = Random.Range(1, 5);       // 40% 확률 템 드랍
+                yield return new WaitForSeconds(4f);
+                if (num == 1) Instantiate(battery, this.transform.position, Quaternion.identity);
+                else if (num == 2) Instantiate(lazer, this.transform.position, Quaternion.identity);
+
             }
 
         }

@@ -26,7 +26,17 @@ public class PlayerHPBar : MonoBehaviour
         hpRate = currentHP / maxHP; // 체력 비율
         HPBar.fillAmount = Mathf.Lerp(HPBar.fillAmount, hpRate, Time.deltaTime * speed);
 
-        // 총알게이지에 따라 색깔변경
+        if(Input.GetKey(KeyCode.E) && BSlot.battery != 0)
+        {
+            currentHP += 500f;
+            BSlot.battery -= 1;
+        }
+
+        // 체력게이지에 따라 색깔변경
+        if(currentHP >= 1000f)
+        {
+            currentHP = 1000f;
+        }
         if (currentHP <= 1000f)
         {
             HPBar.color = new Color(47 / 255f, 86 / 255f, 231 / 255f);

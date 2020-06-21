@@ -10,14 +10,17 @@ public class PlayerBulletBar : MonoBehaviour
     public Image bulletBar;
     public Shooting shoot;
 
-    private float currentBullet;
-    private float maxBullet = 5000f;
+    private static float currentBullet;
+    private float maxBullet = 4000f;
     private float bulletRate;
     private float speed = 3f;
+    private Animator animator;
     void Start()
     {
         bulletBar = GetComponent<Image>();
         shoot = GameObject.Find("Player").GetComponent<Shooting>();
+        animator = GameObject.Find("Player").GetComponent<Animator>();
+
         bulletBar.color = new Color(73 / 255f, 238 / 255f, 112 / 255f); // 초기 바 색상
         currentBullet = maxBullet; // 초기 장탄수 설정
     }
@@ -28,6 +31,16 @@ public class PlayerBulletBar : MonoBehaviour
         bulletRate = currentBullet / maxBullet; // 잔탄 비율
         bulletBar.fillAmount = Mathf.Lerp(bulletBar.fillAmount, bulletRate, Time.deltaTime * speed);
 
+        // 재장전
+        if (Input.GetKey(KeyCode.R) && LSlot.lazer != 0)
+        {
+            currentBullet += 500f;
+            LSlot.lazer -= 1;
+            animator.SetBool("IsReload", true); // 재장전 애니메이션
+        }
+        //else animator.SetBool("IsReload", false);
+
+        // 사격
         if (shoot.isShoot == true)
         {
             currentBullet -= 1f; // 총알 한발씩 소모
@@ -55,5 +68,7 @@ public class PlayerBulletBar : MonoBehaviour
         {
             bulletBar.color = Color.red;
         }
+
+
     }
 }

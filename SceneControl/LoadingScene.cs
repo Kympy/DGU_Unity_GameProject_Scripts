@@ -15,7 +15,8 @@ public class LoadingScene : MonoBehaviour
         else if (index == 2) StartCoroutine(LoadScene(3)); // 에일리언 >> 세컨드씬
         else if (index == 3) StartCoroutine(LoadScene(4)); // 세컨드씬 >> 좀비
         else if (index == 4) StartCoroutine(LoadScene(5)); // 좀비 >> 보스씬
-        else if (index == 5) StartCoroutine(LoadScene(6)); // 보스씬 >> 엔딩씬
+        else if (index == 5) StartCoroutine(LoadScene(6)); // 보스씬 >> 엔딩씬1
+        else if (index == 6) StartCoroutine(LoadScene(7)); // 엔딩씬1 >> 엔딩씬2
     }
     IEnumerator LoadScene(int num)
     {

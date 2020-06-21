@@ -14,6 +14,8 @@ public class MonsterControl : MonoBehaviour
     public float traceDistance = 15f; // 몬스터 추적거리
     public float attackDistance = 8f; // 몬스터 공격거리
     public bool isDead = false; // MonsterHP 에서 이 값을 통해 사망 애니메이션 재생
+    public GameObject battery;
+    public GameObject lazer;
 
     Transform monsterTransform;
     Transform playerTransform;
@@ -85,6 +87,10 @@ public class MonsterControl : MonoBehaviour
             {
                 isDead = true;
                 SpawnMonster.currentMonsterCount -= 1;
+                int num = Random.Range(1, 5);
+                yield return new WaitForSeconds(1f);
+                if (num == 1) Instantiate(battery, this.transform.position, Quaternion.identity);
+                else if (num == 2) Instantiate(lazer, this.transform.position, Quaternion.identity);
                 //Debug.Log(SpawnMonster.currentMonsterCount);
             }
         }
