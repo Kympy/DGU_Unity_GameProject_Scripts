@@ -137,7 +137,7 @@ public class BossControl : MonoBehaviour
                     bossAnimator.SetBool("IsGuard", true);
                     bossAnimator.SetBool("IsAttack", false);
                     bossAnimator.SetBool("IsTrace", false);
-                    
+
                     break;
                 default:
                     break;

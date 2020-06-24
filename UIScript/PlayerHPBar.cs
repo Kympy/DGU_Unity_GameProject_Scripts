@@ -9,16 +9,16 @@ public class PlayerHPBar : MonoBehaviour
 {
     public Image HPBar;
 
-    public static float currentHP;
+    public static float currentHP = 1000f;
     private float maxHP = 1000f;
     private float hpRate;
     private float speed = 3f;
 
     void Start()
     {
+        currentHP = 1000f;
         HPBar = GetComponent<Image>();
         HPBar.color = new Color(47 / 255f, 86 / 255f, 231 / 255f); // 초기 바 색상
-        currentHP = maxHP; // 초기 체력 설정
     }
 
     void Update()
@@ -26,7 +26,7 @@ public class PlayerHPBar : MonoBehaviour
         hpRate = currentHP / maxHP; // 체력 비율
         HPBar.fillAmount = Mathf.Lerp(HPBar.fillAmount, hpRate, Time.deltaTime * speed);
 
-        if(Input.GetKey(KeyCode.E) && BSlot.battery != 0)
+        if(Input.GetKeyDown(KeyCode.E) && BSlot.battery != 0)
         {
             currentHP += 500f;
             BSlot.battery -= 1;

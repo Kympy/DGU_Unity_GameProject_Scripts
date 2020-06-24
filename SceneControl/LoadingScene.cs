@@ -11,6 +11,8 @@ public class LoadingScene : MonoBehaviour
     {
         index = PortalEnter.sceneIndex;
         Debug.Log(index);
+        
+        //if (index == 8) StartCoroutine(LoadScene(0)); // 메인화면 >> 스타트씬
         if (index == 0) StartCoroutine(LoadScene(2)); // 스타트씬 >> 에일리언
         else if (index == 2) StartCoroutine(LoadScene(3)); // 에일리언 >> 세컨드씬
         else if (index == 3) StartCoroutine(LoadScene(4)); // 세컨드씬 >> 좀비

@@ -89,7 +89,7 @@ public class MonsterControl : MonoBehaviour
                 SpawnMonster.currentMonsterCount -= 1;
                 int num = Random.Range(1, 5);
                 yield return new WaitForSeconds(1f);
-                if (num == 1) Instantiate(battery, this.transform.position, Quaternion.identity);
+                if (num == 1) Instantiate(battery, this.transform.position, Quaternion.identity); // 죽으면서 아이템 떨구기
                 else if (num == 2) Instantiate(lazer, this.transform.position, Quaternion.identity);
                 //Debug.Log(SpawnMonster.currentMonsterCount);
             }

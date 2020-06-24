@@ -9,11 +9,13 @@ public class EnemyShoot : MonoBehaviour
     public float attackCoolTime = 1.5f; // 몬스터의 공격 발사 쿨타임
 
     private float timer;
+    private AudioSource audio;
 
     void Start()
     {
         timer = 0f;
         animator = GetComponent<Animator>();
+        audio = this.GetComponent<AudioSource>();
     }
 
     void Update()
@@ -25,6 +27,7 @@ public class EnemyShoot : MonoBehaviour
             if (timer >= attackCoolTime) // 쿨타임보다 타이머가 커지고 공격중이면 발사
             {
                 Attack();
+                audio.Play();
                 timer = 0f;
             }
         }
