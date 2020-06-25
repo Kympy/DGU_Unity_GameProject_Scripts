@@ -16,7 +16,7 @@ public class PortalEnter : MonoBehaviour
         if(other.gameObject.tag == "Player")
         {
             audio.Play();
-            SceneManager.LoadScene(1); // 로딩화면 부르기
+            SceneManager.LoadScene(2); // 로딩화면 부르기
         }
     }
 }

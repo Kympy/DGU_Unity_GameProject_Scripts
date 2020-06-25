@@ -44,11 +44,11 @@ public class Shield : MonoBehaviour
                 timer = 0f;
             } 
         }
-        else if(bossAni.GetBool("IsGuard") == true && boss.isSpawn == true)
+        if(bossAni.GetBool("IsGuard") == true && boss.isSpawn == true)
         {
             spawnPoint.gameObject.SetActive(true);
             timer += Time.deltaTime;
-            if(timer > 6f)
+            if(timer > 7f)
             {
                 spawnPoint.gameObject.SetActive(false);
                 boss.isSpawn = false;

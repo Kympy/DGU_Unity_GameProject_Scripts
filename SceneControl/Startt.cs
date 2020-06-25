@@ -13,7 +13,7 @@ public class Startt : MonoBehaviour
     public void ClickStart()
     {
         audio.Play();
-        SceneManager.LoadSceneAsync(0);
+        SceneManager.LoadSceneAsync(1);
     }
 
 

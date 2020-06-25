@@ -14,7 +14,7 @@ public class SpawnMonster : MonoBehaviour
     {
         // spawnpoints를 게임시작과 함께 배열에 담기
         spawnPoints = GameObject.Find("SpawnPoint").GetComponentsInChildren<Transform>();
-        createTime = 0.2f;
+        createTime = 0.7f;
         StartCoroutine(this.CreateMonster());
     }
 

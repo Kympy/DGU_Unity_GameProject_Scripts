@@ -9,6 +9,7 @@ public class PlayerControl : MonoBehaviour
     private Vector3 moveDirection; // 기본 달리기 벡터
     float horizontal;
     float vertical;
+    bool check = false;
 
     Rigidbody playerRigidbody;
     Animator animator;
@@ -23,11 +24,21 @@ public class PlayerControl : MonoBehaviour
     }
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            dead.alpha = 1;
+            check = !check;
+            if (check == true)
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+                dead.alpha = 1;
+            }
+            else
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                dead.alpha = 0;
+            }
         }
         if (Cursor.visible == false) // 커서가 숨김모드일때만 이동가능
         {

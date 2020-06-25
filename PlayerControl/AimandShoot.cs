@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class AimandShoot : MonoBehaviour
 {
-    bool cursorVisible = false; // 커서 보이기/숨기기 변수
+    bool stopPlaying = false; // 커서 보이기/숨기기 변수
     public bool aimMode = false; // 조준모드 활성/비활성 변수
     PlayerControl playerControl;
 
@@ -19,20 +19,16 @@ public class AimandShoot : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab)) // Tab 키를 이용한 커서 숨김/보이기, 잠금/해제
+        if (Input.GetKeyDown(KeyCode.Tab)) // Tab 키를 이용한 게임 정지
         {
-            cursorVisible = !cursorVisible;
-            if(cursorVisible)
+            stopPlaying = !stopPlaying;
+            if(stopPlaying == true)
             {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-                Time.timeScale = 0; // 커서가 보이면 게임 일시정지
+                Time.timeScale = 0; // 게임 일시정지
             }
             else
             {
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
-                Time.timeScale = 1; // 커서 숨기면 게임 다시 진행
+                Time.timeScale = 1; // 게임 다시 진행
             }
         }
 
@@ -50,7 +46,7 @@ public class AimandShoot : MonoBehaviour
         }
         
 
-        if (cursorVisible == false && aimMode && Input.GetKey(KeyCode.Mouse0)) // 커서숨김이고 & 조준모드 활성 & 좌클릭 시 공격
+        if (stopPlaying == false && aimMode && Input.GetKey(KeyCode.Mouse0)) // 플레이중 & 조준모드 활성 & 좌클릭 시 공격
         {
             animator.SetBool("IsShooting", true);
         }

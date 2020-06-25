@@ -12,13 +12,14 @@ public class LoadingScene : MonoBehaviour
         index = PortalEnter.sceneIndex;
         Debug.Log(index);
         
-        //if (index == 8) StartCoroutine(LoadScene(0)); // 메인화면 >> 스타트씬
-        if (index == 0) StartCoroutine(LoadScene(2)); // 스타트씬 >> 에일리언
-        else if (index == 2) StartCoroutine(LoadScene(3)); // 에일리언 >> 세컨드씬
-        else if (index == 3) StartCoroutine(LoadScene(4)); // 세컨드씬 >> 좀비
-        else if (index == 4) StartCoroutine(LoadScene(5)); // 좀비 >> 보스씬
-        else if (index == 5) StartCoroutine(LoadScene(6)); // 보스씬 >> 엔딩씬1
-        else if (index == 6) StartCoroutine(LoadScene(7)); // 엔딩씬1 >> 엔딩씬2
+        if (index == 0) StartCoroutine(LoadScene(1)); // 메인화면 >> 스타트씬
+        if (index == 1) StartCoroutine(LoadScene(3)); // 스타트 >> 에일리언
+        if (index == 3) StartCoroutine(LoadScene(4)); // 에일리언 >> 세컨드
+        if (index == 4) StartCoroutine(LoadScene(5)); // 세컨드 >> 좀비
+        if (index == 5) StartCoroutine(LoadScene(6)); // 좀비 >> 보스
+        if (index == 6) StartCoroutine(LoadScene(7)); // 보스 >> 엔딩1
+        if (index == 7) StartCoroutine(LoadScene(8)); // 엔딩1 >> 엔딩2
+
     }
     IEnumerator LoadScene(int num)
     {
