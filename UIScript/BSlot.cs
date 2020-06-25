@@ -8,10 +8,12 @@ public class BSlot : MonoBehaviour
 {
     public static int battery;
     private TextMeshProUGUI bat;
+    private AudioSource reload;
     void Start()
     {
         battery = 0;
         bat = this.GetComponentInChildren<TextMeshProUGUI>();
+        reload = GetComponent<AudioSource>();
         bat.text = battery.ToString();
     }
 

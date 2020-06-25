@@ -13,11 +13,13 @@ public class PlayerHPBar : MonoBehaviour
     private float maxHP = 1000f;
     private float hpRate;
     private float speed = 3f;
+    private AudioSource reload;
 
     void Start()
     {
         currentHP = 1000f;
         HPBar = GetComponent<Image>();
+        reload = GetComponentInParent<AudioSource>();
         HPBar.color = new Color(47 / 255f, 86 / 255f, 231 / 255f); // 초기 바 색상
     }
 
@@ -30,6 +32,7 @@ public class PlayerHPBar : MonoBehaviour
         {
             currentHP += 500f;
             BSlot.battery -= 1;
+            reload.Play();
         }
 
         // 체력게이지에 따라 색깔변경
@@ -51,7 +54,8 @@ public class PlayerHPBar : MonoBehaviour
         }
         if (currentHP == 0f)
         {
-            currentHP = 0;
+            currentHP = 0f;
+
         }
     }
 }

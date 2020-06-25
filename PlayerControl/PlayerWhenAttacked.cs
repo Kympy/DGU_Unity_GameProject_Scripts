@@ -13,19 +13,33 @@ public class PlayerWhenAttacked : MonoBehaviour
     private float lazerDamage = 500f; // 레이저 데미지
 
     private GameObject playingEffect;
-    private GameObject crashedEffect;
+    private Animator player;
+    private CanvasGroup dead;
+    private float timer = 0f;
+    private AimandShoot aim;
+
 
     private void Start()
     {
-        StartCoroutine(this.SmokeEffect());
+        player = GetComponent<Animator>();
+        dead = GetComponentInChildren<CanvasGroup>();
+        aim = GetComponent<AimandShoot>();
     }
-    IEnumerator SmokeEffect()
+
+    private void Update()
     {
-        yield return new WaitForSeconds(0.5f);
-        while (PlayerHPBar.currentHP < 350f)
+        if (PlayerHPBar.currentHP <= 0f)
         {
-            crashedEffect = Instantiate(smokeEffect, effectPosition.transform.position, effectPosition.transform.rotation);
-            Destroy(playingEffect, 1f);
+            player.SetBool("IsDead", true);
+            timer += Time.deltaTime;
+            if(timer > 0.2f)
+            {
+                player.SetBool("IsDead", false);
+                dead.alpha = 1;
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+                aim.aimMode = false;
+            }
         }
     }
 

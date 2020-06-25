@@ -12,15 +12,23 @@ public class PlayerControl : MonoBehaviour
 
     Rigidbody playerRigidbody;
     Animator animator;
+    CanvasGroup dead;
 
     void Start()
     {
         playerRigidbody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        dead = GetComponentInChildren<CanvasGroup>();
         Cursor.visible = false;
     }
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            dead.alpha = 1;
+        }
         if (Cursor.visible == false) // 커서가 숨김모드일때만 이동가능
         {
             horizontal = Input.GetAxisRaw("Horizontal");  // 이동키 입력

@@ -26,6 +26,7 @@ public class ZombieControl : MonoBehaviour
 
     private float timer;
     private float deadTime = 4f; // 죽는 시간
+    private AudioSource audio;
 
     void Start()
     {
@@ -34,6 +35,7 @@ public class ZombieControl : MonoBehaviour
         navAgent = this.gameObject.GetComponent<NavMeshAgent>();
         alienAnimator = GetComponent<Animator>();
         zombieHP = this.GetComponentInChildren<ZombieHP>();
+        audio = GetComponent<AudioSource>();
 
         navAgent.destination = playerTransform.position + attackDistance * Vector3.forward; //플레이어를 목적지로 설정
 
@@ -115,6 +117,7 @@ public class ZombieControl : MonoBehaviour
                     break;
                 case CurrentState.attack:
                     alienAnimator.SetBool("IsAttack", true);
+                    audio.Play();
                     break;
                 default:
                     break;

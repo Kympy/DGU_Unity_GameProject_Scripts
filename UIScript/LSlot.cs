@@ -7,10 +7,12 @@ public class LSlot: MonoBehaviour
 {
     public static int lazer;
     private TextMeshProUGUI laz;
+    private AudioSource reload;
     void Start()
     {
         lazer = 0;
         laz = this.GetComponentInChildren<TextMeshProUGUI>();
+        reload = GetComponent<AudioSource>();
         laz.text = lazer.ToString();
     }
 

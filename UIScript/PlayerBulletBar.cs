@@ -16,12 +16,14 @@ public class PlayerBulletBar : MonoBehaviour
     private float speed = 3f;
     private Animator animator;
     private float timer;
+    private AudioSource reload;
     //private bool go = false;
     void Start()
     {
         bulletBar = GetComponent<Image>();
         shoot = GameObject.Find("Player").GetComponent<Shooting>();
         animator = GameObject.Find("Player").GetComponent<Animator>();
+        reload = GetComponentInParent<AudioSource>();
         currentBullet = 4000f;
         bulletBar.color = new Color(73 / 255f, 238 / 255f, 112 / 255f); // 초기 바 색상
 
@@ -39,6 +41,7 @@ public class PlayerBulletBar : MonoBehaviour
         {
                 currentBullet += 1000f;
                 LSlot.lazer -= 1;
+                reload.Play();
                 animator.SetBool("IsReload", true); // 재장전 애니메이션
         }
         else
